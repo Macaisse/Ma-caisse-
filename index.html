@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Ma Caisse</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172033;background:#f3f6fb}
+    *{box-sizing:border-box}
+    body{margin:0}
+    header{background:#101827;color:white;padding:26px 18px 30px;border-radius:0 0 24px 24px}
+    .wrap{max-width:760px;margin:auto}
+    .brand{font-size:14px;opacity:.8;letter-spacing:.08em;text-transform:uppercase}
+    h1{margin:7px 0 4px;font-size:29px}
+    header p{margin:0;color:#cbd5e1}
+    main{max-width:760px;margin:18px auto;padding:0 14px 32px}
+    .balance{background:#fff;border-radius:18px;padding:20px;box-shadow:0 5px 20px #1720330c}
+    .muted{color:#64748b;font-size:13px}
+    .amount{font-size:32px;font-weight:750;margin-top:5px}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .stat{background:#fff;border-radius:15px;padding:15px}
+    .stat strong{display:block;font-size:19px;margin-top:5px}
+    section.panel{background:#fff;border-radius:18px;padding:18px;margin-top:14px;box-shadow:0 5px 20px #1720330c}
+    h2{font-size:18px;margin:0 0 14px}
+    label{display:block;font-size:13px;font-weight:650;margin:12px 0 6px}
+    input,select,button{font:inherit}
+    input,select{width:100%;padding:12px;border:1px solid #dbe2ec;border-radius:10px;background:white}
+    .types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .types label{margin:0}
+    .types input{width:auto}
+    button{border:0;border-radius:11px;padding:12px 16px;font-weight:700;cursor:pointer}
+    .primary{background:#2563eb;color:white;width:100%;margin-top:16px}
+    .entry{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #edf0f5}
+    .entry:last-child{border:0}
+    .entry small{display:block;color:#64748b;margin-top:3px}
+    .in{color:#07834d;font-weight:750}.out{color:#dc3545;font-weight:750}
+    .delete{background:#f1f5f9;color:#475569;padding:7px 10px;font-size:12px}
+    .empty{text-align:center;color:#64748b;padding:20px 0}
+    footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px}
+  </style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand">Gestion simple</div>
+  <h1>Ma Caisse</h1>
+  <p>Suivez vos entrées et vos dépenses en toute simplicité.</p>
+</div></header>
+<main>
+  <div class="balance">
+    <div class="muted">Solde actuel</div>
+    <div class="amount" id="balance">0 FCFA</div>
+    <div class="muted">Calculé à partir de vos opérations</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="muted">Total des entrées</span><strong class="in" id="income">0 FCFA</strong></div>
+    <div class="stat"><span class="muted">Total des dépenses</span><strong class="out" id="expense">0 FCFA</strong></div>
+  </div>
+  <section class="panel">
+    <h2>Nouvelle opération</h2>
+    <form id="form">
+      <div class="types">
+        <label><input type="radio" name="type" value="in" checked> Entrée d'argent</label>
+        <label><input type="radio" name="type" value="out"> Dépense</label>
+      </div>
+      <label for="description">Description</label>
+      <input id="description" maxlength="70" placeholder="Ex. Vente, transport…" required>
+      <label for="amount">Montant (FCFA)</label>
+      <input id="amount" type="number" min="1" step="1" inputmode="numeric" placeholder="Ex. 5000" required>
+      <label for="date">Date</label>
+      <input id="date" type="date" required>
+      <button class="primary" type="submit">Ajouter l'opération</button>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Historique</h2>
+    <div id="history"><div class="empty">Aucune opération pour le moment.</div></div>
+  </section>
+  <footer>Ma Caisse · Vos données restent enregistrées sur cet appareil.</footer>
+</main>
+<script>
+(() => {
+  const KEY = 'ma-caisse-operations-v1';
+  const $ = id => document.getElementById(id);
+  let operations = [];
+  try { operations = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (_) {}
+  $('date').value = new Date().toISOString().slice(0,10);
+  const money = n => new Intl.NumberFormat('fr-FR').format(n) + ' FCFA';
+  function save(){ localStorage.setItem(KEY, JSON.stringify(operations)); render(); }
+  function render(){
+    const income = operations.filter(x=>x.type==='in').reduce((s,x)=>s+x.amount,0);
+    const expense = operations.filter(x=>x.type==='out').reduce((s,x)=>s+x.amount,0);
+    $('balance').textContent = money(income-expense);
+    $('income').textContent = money(income);
+    $('expense').textContent = money(expense);
+    const history = $('history');
+    history.innerHTML = '';
+    if(!operations.length){ history.innerHTML='<div class="empty">Aucune opération pour le moment.</div>'; return; }
+    [...operations].sort((a,b)=>b.created-a.created).forEach(op=>{
+      const row=document.createElement('div'); row.className='entry';
+      const left=document.createElement('div');
+      const title=document.createElement('strong'); title.textContent=op.description;
+      const date=document.createElement('small'); date.textContent=op.date;
+      left.append(title,date);
+      const right=document.createElement('div'); right.style.textAlign='right';
+      const val=document.createElement('div'); val.className=op.type==='in'?'in':'out';
+      val.textContent=(op.type==='in'?'+':'−')+money(op.amount);
+      const del=document.createElement('button'); del.className='delete'; del.textContent='Supprimer';
+      del.addEventListener('click',()=>{ if(confirm('Supprimer cette opération ?')){operations=operations.filter(x=>x.id!==op.id);save();} });
+      right.append(val,del); row.append(left,right); history.append(row);
+    });
+  }
+  $('form').addEventListener('submit',e=>{
+    e.preventDefault();
+    const description=$('description').value.trim();
+    const amount=Number($('amount').value);
+    const date=$('date').value;
+    if(!description || !Number.isSafeInteger(amount) || amount<=0 || !date) return;
+    operations.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),type:document.querySelector('input[name="type"]:checked').value,description,amount,date,created:Date.now()});
+    save(); e.target.reset(); $('date').value=new Date().toISOString().slice(0,10);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
