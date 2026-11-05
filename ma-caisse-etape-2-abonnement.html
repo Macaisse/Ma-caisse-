@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a2c"><title>Ma Caisse — Gestion complète</title>
+<style>
+:root{--navy:#101a2c;--navy2:#172943;--blue:#3268e8;--bg:#f3f6fb;--ink:#172033;--muted:#718096;--line:#e6ebf2;--green:#11865b;--red:#d94b59;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:var(--navy);color:#e8eef8;padding:22px 14px;overflow:auto;z-index:5}.brand{display:flex;gap:11px;align-items:center;padding:0 9px 25px}.logo{width:39px;height:39px;border-radius:12px;background:linear-gradient(135deg,#4c83ff,#2352c7);display:grid;place-items:center;font-weight:900;font-size:20px}.brand strong{font-size:18px}.brand small{display:block;color:#9aabc2;font-size:11px}.group{color:#8092ac;text-transform:uppercase;font-size:10px;letter-spacing:.12em;padding:14px 11px 7px}.nav{width:100%;display:flex;gap:12px;align-items:center;border:0;background:transparent;color:#c4d0e1;padding:11px;border-radius:10px;text-align:left;margin:2px 0}.nav span:first-child{width:20px;text-align:center}.nav.active,.nav:hover{background:#223b5e;color:#fff}.main{margin-left:245px;padding:26px;max-width:1600px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.top h1{font-size:25px;margin:0}.sub{color:var(--muted);margin-top:4px}.pill{background:#e8f1ff;color:#275acb;border-radius:30px;padding:7px 11px;font-size:12px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 4px 16px #15233a08}.metric-label{color:var(--muted);font-size:12px}.metric{font-size:25px;font-weight:800;margin:8px 0 3px}.positive{color:var(--green)}.negative{color:var(--red)}.section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.section-head h2{font-size:17px;margin:0}.cols{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.btn{border:0;background:var(--blue);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700}.btn.secondary{background:#edf2fa;color:#263750}.btn.danger{background:#fff0f0;color:#bd3341}.btn.small{padding:7px 10px;font-size:12px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:540px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}td{font-size:13px}.empty{text-align:center;color:var(--muted);padding:28px}.barline{height:9px;background:#edf1f7;border-radius:20px;overflow:hidden;margin-top:8px}.barline i{display:block;height:100%;background:var(--blue);border-radius:20px}.quick{display:flex;gap:8px;flex-wrap:wrap}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:12px;font-weight:700;margin:0 0 6px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #dce3ed;border-radius:9px;background:#fff;color:var(--ink)}.field.full{grid-column:1/-1}.modal{position:fixed;inset:0;background:#0b1425a6;display:none;align-items:center;justify-content:center;padding:15px;z-index:10}.modal.show{display:flex}.dialog{background:white;border-radius:17px;width:min(560px,100%);max-height:90vh;overflow:auto;padding:21px}.dialog h2{margin:0 0 17px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#172943;color:white;padding:11px 17px;border-radius:10px;display:none;z-index:20}.mobilebar{display:none}.lock-screen{position:fixed;inset:0;background:#101a2c;z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.lock-screen.show{display:flex}.lock-box{background:#fff;border-radius:18px;padding:24px;width:min(360px,100%);text-align:center}.lock-box input{width:100%;padding:13px;border:1px solid #dce3ed;border-radius:10px;margin:12px 0}.sub-card{margin-top:16px}.status-demo{display:inline-block;background:#fff4d6;color:#8a5b00;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:700}.subscription-price{font-size:25px;font-weight:850;margin:12px 0 4px}.subscription-note{font-size:12px;color:var(--muted);line-height:1.5}.subscription-status{display:inline-block;padding:6px 10px;border-radius:20px;background:#edf2fa;color:#263750;font-weight:700;font-size:12px}.subscription-status.active{background:#e7f7ef;color:#087548}.subscription-status.expired{background:#fff0f0;color:#bd3341}.payment-select{width:100%;padding:11px;border:1px solid #dce3ed;border-radius:9px;background:#fff;color:var(--ink)}
+@media(max-width:900px){.sidebar{width:205px}.main{margin-left:205px;padding:20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cols{grid-template-columns:1fr}}
+@media(max-width:620px){.sidebar{position:fixed;inset:auto 0 0;width:100%;height:66px;padding:5px 6px;display:flex;overflow-x:auto;gap:3px;border-top:1px solid #29405e}.brand,.group{display:none}.nav{min-width:67px;width:auto;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:5px 6px;margin:0;font-size:10px}.nav span:first-child{font-size:17px}.main{margin:0;padding:18px 13px 88px}.top{align-items:flex-start}.top h1{font-size:22px}.grid{gap:9px}.card{padding:13px}.metric{font-size:20px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.pill{font-size:10px}}
+
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px}
+.chart-legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:10px 0 16px}
+.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.month-chart{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:end;min-height:150px}
+.month-col{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
+.month-bars{height:112px;width:100%;display:flex;align-items:end;justify-content:center;gap:4px;border-bottom:1px solid var(--line);padding:0 3px}
+.month-bar{width:min(25px,42%);min-height:3px;border-radius:6px 6px 0 0}
+.month-label{font-size:11px;color:var(--muted)}
+.month-values{font-size:10px;color:var(--muted);text-align:center;line-height:1.4}
+.dashboard-bottom{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+.progress-row{margin:14px 0}
+.progress-head{display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.progress-track{height:8px;background:#edf1f7;border-radius:20px;overflow:hidden;margin-top:7px}
+.progress-fill{height:100%;border-radius:20px}
+@media(max-width:620px){.dashboard-bottom{grid-template-columns:1fr}.month-chart{gap:5px}.month-values{font-size:9px}}
+/* ===== Factures et reçus ===== */
+.rc-list{display:grid;gap:10px}
+.rc-item{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.rc-info{min-width:0;flex:1 1 220px}
+.rc-no{font-weight:800;color:var(--blue);font-size:13px}
+.rc-name{font-weight:700;margin-top:2px;overflow-wrap:anywhere}
+.rc-line{color:var(--muted);font-size:12px;margin-top:3px;overflow-wrap:anywhere}
+.rc-side{margin-left:auto;text-align:right}
+.rc-amount{font-weight:800;font-size:16px}
+.rc-btns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;margin-top:8px}
+.rc-sheet{border:1px solid var(--line);border-radius:12px;padding:20px;background:#fff;color:#172033}
+.rc-biz{font-size:21px;font-weight:800;text-align:center;overflow-wrap:anywhere}
+.rc-title{text-align:center;letter-spacing:.14em;color:var(--muted);font-size:12px;margin:5px 0 14px}
+.rc-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0}
+.rc-meta span{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+.rc-meta b{overflow-wrap:anywhere}
+.rc-meta .full{grid-column:1/-1}
+.rc-detail{padding:12px 0 2px}
+.rc-desig{font-size:16px;font-weight:800;overflow-wrap:anywhere;margin-bottom:8px}
+.rc-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.rc-row span{color:var(--muted)}
+.rc-total{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--navy);color:#fff;padding:14px;border-radius:10px;margin-top:14px;font-weight:800}
+.rc-total b{font-size:18px;text-align:right;white-space:nowrap}
+.rc-foot{text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
+.rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.rc-actions .btn{flex:1 1 100px}
+@media(max-width:620px){.nav{text-align:center}.rc-sheet{padding:15px}.rc-biz{font-size:19px}.rc-total b{font-size:16px}.rc-side{width:100%}}
+@media print{
+body.rc-open{background:#fff}
+body.rc-open .app,body.rc-open #modal,body.rc-open .toast,body.rc-open .no-print{display:none!important}
+#receiptModal.show{position:static;display:block;background:none;padding:0}
+#receiptModal .dialog{width:100%;max-height:none;overflow:visible;padding:0;border-radius:0}
+#receiptModal .rc-sheet{border:0;padding:0}
+.rc-total{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{margin:14mm}
+}
+</style></head>
+<body><div class="app">
+<aside class="sidebar"><div class="brand"><div class="logo">M</div><div><strong>Ma Caisse</strong><small>Gestion intelligente</small></div></div>
+<div class="group">Espace principal</div>
+<button class="nav active" data-page="dashboard"><span>▦</span>Tableau de bord</button>
+<button class="nav" data-page="transactions"><span>↕</span>Finances</button>
+<button class="nav" data-page="sales"><span>▣</span>Ventes</button>
+<button class="nav" data-page="receipts"><span>🧾</span>Factures et reçus</button>
+<button class="nav" data-page="purchases"><span>🛒</span>Achats</button>
+<button class="nav" data-page="products"><span>◫</span>Produits & stock</button>
+<div class="group">Gestion</div>
+<button class="nav" data-page="clients"><span>♙</span>Clients</button>
+<button class="nav" data-page="suppliers"><span>♧</span>Fournisseurs</button>
+<button class="nav" data-page="debts"><span>◷</span>Dettes & crédits</button>
+<div class="group">Pilotage</div>
+<button class="nav" data-page="reports"><span>▤</span>Rapports</button>
+<button class="nav" data-page="settings"><span>⚙</span>Paramètres</button></aside>
+<main class="main"><div class="top"><div><h1 id="pageTitle">Tableau de bord</h1><div class="sub" id="pageSub">Vue d'ensemble de votre activité</div></div><span class="pill">● Données sur cet appareil</span></div><div id="content"></div></main></div>
+<div class="modal" id="modal"><div class="dialog"><h2 id="modalTitle">Ajouter</h2><form id="modalForm"><div class="formgrid" id="modalFields"></div><div class="dialog-actions"><button type="button" class="btn secondary" id="cancel">Annuler</button><button class="btn" type="submit">Enregistrer</button></div></form></div></div><div class="toast" id="toast"></div>
+<div class="modal" id="receiptModal"><div class="dialog" id="receiptDialog"></div></div><div class="lock-screen" id="lockScreen"><div class="lock-box"><div class="logo" style="margin:0 auto 12px">M</div><h2>Ma Caisse est verrouillée</h2><p class="sub">Entre ton code PIN pour continuer.</p><input id="unlockPin" type="password" inputmode="numeric" maxlength="6" placeholder="Code PIN"><button class="btn" id="unlockBtn" style="width:100%">Déverrouiller</button><p id="lockError" style="color:#d94b59"></p></div></div>
+<script>
+(()=>{
+const KEY='ma-caisse-v2-data';
+const blank={transactions:[],products:[],sales:[],purchases:[],clients:[],suppliers:[],debts:[],settings:{business:'Mon activité',currency:'FCFA',whatsapp:''},receiptCounter:0};
+let db;try{db={...blank,...JSON.parse(localStorage.getItem(KEY)||'{}')};}catch(e){db=structuredClone(blank)}
+let page='dashboard',editing=null,activeFormKey=null;
+const $=id=>document.getElementById(id), money=n=>new Intl.NumberFormat('fr-FR').format(Number(n)||0)+' '+(db.settings.currency||'FCFA');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function ensureReceipts(){
+ let changed=false;
+ if(!Number.isInteger(db.receiptCounter)||db.receiptCounter<0){db.receiptCounter=0;changed=true}
+ if(!Array.isArray(db.sales))db.sales=[];
+ let max=db.sales.reduce((m,s)=>Math.max(m,+s.receiptNo||0),0);
+ if(db.receiptCounter<max){db.receiptCounter=max;changed=true}
+ db.sales.forEach(s=>{if(!(+s.receiptNo>0)){s.receiptNo=++db.receiptCounter;changed=true}});
+ return changed;
+}
+function save(){ensureReceipts();localStorage.setItem(KEY,JSON.stringify(db));render()}
+try{if(ensureReceipts())localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
+function sum(a,fn){return a.reduce((s,x)=>s+fn(x),0)}
+const configs={
+transactions:{title:'Finances',sub:'Suivez vos revenus et vos dépenses',key:'transactions',add:'Nouvelle opération',fields:[['type','Type','select',['Entrée','Dépense']],['description','Description','text'],['amount','Montant','number'],['category','Catégorie','text'],['date','Date','date']]},
+products:{title:'Produits & stock',sub:'Catalogue et quantités disponibles',key:'products',add:'Nouveau produit',fields:[['name','Nom du produit','text'],['sku','Référence','text'],['buy','Prix d’achat','number'],['price','Prix de vente','number'],['stock','Quantité en stock','number']]},
+clients:{title:'Clients',sub:'Carnet de vos clients',key:'clients',add:'Nouveau client',fields:[['name','Nom complet','text'],['phone','Téléphone','tel'],['email','E-mail','email'],['note','Note','text']]},
+suppliers:{title:'Fournisseurs',sub:'Répertoire de vos fournisseurs',key:'suppliers',add:'Nouveau fournisseur',fields:[['name','Nom du fournisseur','text'],['phone','Téléphone','tel'],['email','E-mail','email'],['note','Note','text']]},
+debts:{title:'Dettes & crédits',sub:'Suivez les sommes à recevoir et à payer',key:'debts',add:'Ajouter une dette',fields:[['person','Personne / entreprise','text'],['kind','Nature','select',['À recevoir','À payer']],['amount','Montant','number'],['due','Échéance','date'],['status','Statut','select',['En attente','Payé']]]},
+sales:{title:'Ventes',sub:'Enregistrez vos ventes et consultez les reçus',key:'sales',add:'Nouvelle vente',fields:[['item','Article / service','text'],['quantity','Quantité','number'],['unitPrice','Prix unitaire','number'],['client','Client','text'],['date','Date','date']]},
+purchases:{title:'Achats',sub:'Enregistrez les approvisionnements et suivez leur coût',key:'purchases',add:'Nouvel achat',fields:[['item','Produit','text'],['quantity','Quantité achetée','number'],['unitCost','Coût unitaire','number'],['supplier','Fournisseur','text'],['date','Date','date']]}
+};
+function metric(label,value,cls=''){return `<div class="card"><div class="metric-label">${label}</div><div class="metric ${cls}">${value}</div></div>`}
+function table(headers,rows){return `<div class="card table-wrap"><table><thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}" class="empty">Aucune donnée pour le moment.</td></tr>`}</tbody></table></div>`}
+function actionButtons(key,id){return `${['clients','suppliers'].includes(key)?`<button class="btn secondary small" data-wa="${key}:${id}">WhatsApp</button> `:''}${key==='sales'?`<button class="btn secondary small" data-receipt="view:${id}">Reçu</button> `:''}<button class="btn secondary small" data-edit="${key}:${id}">Modifier</button> <button class="btn danger small" data-del="${key}:${id}">Supprimer</button>`}
+function dashboard(){
+ let inc=sum(db.transactions.filter(x=>x.type==='Entrée'),x=>+x.amount);
+ let out=sum(db.transactions.filter(x=>x.type==='Dépense'),x=>+x.amount);
+ let sales=sum(db.sales,x=>(+x.quantity||0)*(+x.unitPrice||0));
+ let stock=sum(db.products,x=>+x.stock||0),balance=inc-out;
+ let recent=[...db.transactions.map(x=>({...x,kind:x.type})),...db.sales.map(x=>({...x,description:'Vente : '+x.item,amount:(+x.quantity||0)*(+x.unitPrice||0),kind:'Vente'})),...(db.purchases||[]).map(x=>({...x,description:'Achat : '+x.item,amount:(+x.quantity||0)*(+x.unitCost||0),kind:'Achat'}))]
+   .sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,6);
+ let now=new Date(),months=[];
+ for(let i=5;i>=0;i--){
+   let d=new Date(now.getFullYear(),now.getMonth()-i,1);
+   let key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+   let label=d.toLocaleDateString('fr-FR',{month:'short'});
+   let income=sum(db.transactions.filter(x=>x.type==='Entrée'&&(x.date||'').slice(0,7)===key),x=>+x.amount||0)
+     +sum(db.sales.filter(x=>(x.date||'').slice(0,7)===key),x=>(+x.quantity||0)*(+x.unitPrice||0));
+   let expense=sum(db.transactions.filter(x=>x.type==='Dépense'&&(x.date||'').slice(0,7)===key),x=>+x.amount||0);
+   months.push({label,income,expense});
+ }
+ let max=Math.max(1,...months.flatMap(m=>[m.income,m.expense]));
+ let chart=months.map(m=>`<div class="month-col"><div class="month-values">${money(m.income)}<br>${money(m.expense)}</div><div class="month-bars"><div class="month-bar" title="Recettes : ${money(m.income)}" style="height:${Math.max(3,m.income/max*100)}%;background:var(--green)"></div><div class="month-bar" title="Dépenses : ${money(m.expense)}" style="height:${Math.max(3,m.expense/max*100)}%;background:var(--red)"></div></div><div class="month-label">${esc(m.label)}</div></div>`).join('');
+ let stockValue=sum(db.products,x=>(+x.price||0)*(+x.stock||0));
+ let lowStock=db.products.filter(x=>(+x.stock||0)<=5).length;
+ let totalIn=inc+sales,expenseRatio=totalIn>0?Math.min(100,out/totalIn*100):0;
+ return `<div class="grid">
+ ${metric('Solde financier',money(balance),balance>=0?'positive':'negative')}
+ ${metric('Recettes totales',money(totalIn),'positive')}
+ ${metric('Dépenses',money(out),'negative')}
+ ${metric('Chiffre d’affaires',money(sales))}
+ </div>
+ <div class="section"><div class="section-head"><h2>Actions rapides</h2></div><div class="quick">
+ <button class="btn" data-add="transactions">＋ Opération</button><button class="btn" data-add="sales">＋ Vente</button>
+ <button class="btn secondary" data-add="products">＋ Produit</button><button class="btn secondary" data-add="clients">＋ Client</button>
+ </div></div>
+ <div class="section chart-card"><div class="section-head"><h2>Évolution financière</h2><span class="pill">6 derniers mois</span></div>
+ <div class="chart-legend"><span><i class="legend-dot" style="background:var(--green)"></i>Recettes + ventes</span><span><i class="legend-dot" style="background:var(--red)"></i>Dépenses</span></div>
+ <div class="month-chart">${chart}</div>
+ <div class="sub" style="margin-top:10px">Montants calculés selon les dates de tes opérations et ventes.</div></div>
+ <div class="section dashboard-bottom">
+ <div><div class="section-head"><h2>Activité récente</h2></div>
+ ${table(['Description','Type','Montant','Date'],recent.map(x=>`<tr><td>${esc(x.description)}</td><td>${esc(x.kind)}</td><td>${money(x.amount)}</td><td>${esc(x.date)}</td></tr>`).join(''))}</div>
+ <div><div class="section-head"><h2>Santé de l’activité</h2></div><div class="card">
+ <div class="metric-label">Articles en stock</div><div class="metric">${stock}</div>
+ <div class="progress-row"><div class="progress-head"><span>Part des dépenses dans les recettes</span><b>${expenseRatio.toFixed(0)} %</b></div><div class="progress-track"><div class="progress-fill" style="width:${expenseRatio}%;background:var(--red)"></div></div></div>
+ <div class="metric-label">Valeur indicative du stock au prix de vente</div><div class="metric">${money(stockValue)}</div>
+ <div class="metric-label">Produits avec stock faible (5 ou moins)</div><div class="metric ${lowStock?'negative':'positive'}">${lowStock}</div>
+ <div class="metric-label">Clients · Fournisseurs</div><div class="metric">${db.clients.length} · ${db.suppliers.length}</div>
+ </div></div></div>`;
+}
+function listing(key){
+let c=configs[key],arr=db[key]||[],headers=c.fields.map(f=>f[1]);headers.push('Actions');
+let tools='';
+if(key==='transactions'){
+let inc=sum(arr.filter(x=>x.type==='Entrée'),x=>+x.amount),out=sum(arr.filter(x=>x.type==='Dépense'),x=>+x.amount);
+tools=`<div class="grid section">${metric('Total des entrées',money(inc),'positive')}${metric('Total des dépenses',money(out),'negative')}${metric('Solde des opérations',money(inc-out),inc>=out?'positive':'negative')}${metric('Nombre d’opérations',arr.length)}</div>
+<div class="card section"><div class="formgrid"><div class="field"><label>Rechercher une opération</label><input id="financeSearch" placeholder="Description ou catégorie…"></div><div class="field"><label>Filtrer par type</label><select id="financeType"><option value="">Tous les types</option><option>Entrée</option><option>Dépense</option></select></div><div class="field"><label>Du</label><input id="financeFrom" type="date"></div><div class="field"><label>Au</label><input id="financeTo" type="date"></div></div><div class="quick" style="margin-top:12px"><button class="btn secondary small" id="financeClear">Effacer les filtres</button></div></div>`;
+}
+let rows=arr.map(x=>`<tr>${c.fields.map(f=>`<td>${f[0]==='amount'||f[0]==='price'||f[0]==='buy'||f[0]==='unitPrice'?money(x[f[0]]):esc(x[f[0]])}</td>`).join('')}<td>${actionButtons(key,x.id)}</td></tr>`).join('');
+return `${tools}<div class="section-head"><div></div><button class="btn" data-add="${key}">＋ ${c.add}</button></div><div id="listingTable">${table(headers,rows)}</div>`;
+}
+function reports(){let inc=sum(db.transactions.filter(x=>x.type==='Entrée'),x=>+x.amount),out=sum(db.transactions.filter(x=>x.type==='Dépense'),x=>+x.amount),sales=sum(db.sales,x=>x.quantity*x.unitPrice),purchaseCost=sum(db.purchases||[],x=>(+x.quantity||0)*(+x.unitCost||0));return `<div class="grid">${metric('Entrées',money(inc),'positive')}${metric('Dépenses enregistrées',money(out),'negative')}${metric('Ventes',money(sales))}${metric('Coût des achats',money(purchaseCost),'negative')}</div><div class="section card"><h2>Répartition des données</h2><p>Opérations financières : <b>${db.transactions.length}</b><p>Achats enregistrés : <b>${(db.purchases||[]).length}</b></p></p><div class="barline"><i style="width:${Math.min(100,db.transactions.length*5)}%"></i></div><p>Ventes : <b>${db.sales.length}</b></p><p>Produits : <b>${db.products.length}</b> · Clients : <b>${db.clients.length}</b> · Fournisseurs : <b>${db.suppliers.length}</b></p><p class="sub">Ces indicateurs sont calculés à partir des données enregistrées sur cet appareil.</p></div>`}
+function subscriptionAmount(month){return month<=1?0:month===2?500:1000}
+function subscriptionState(){let status=db.settings.subscriptionStatus||'';if(status==='Annulé')return 'Annulé';let expiry=db.settings.subscriptionExpiresAt;if(!expiry)return 'Non activé';let d=new Date(expiry);return Number.isNaN(d.getTime())?'Non activé':(d.getTime()>Date.now()?'Actif':'Expiré')}
+function addSubscriptionMonth(from=new Date()){let d=new Date(from);let day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+1);let lastDay=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,lastDay));return d.toISOString()}
+function settings(){return `<div class="card"><h2>Informations de l'activité</h2><form id="settingsForm" class="formgrid"><div class="field"><label>Nom de l'activité</label><input name="business" value="${esc(db.settings.business)}"></div><div class="field"><label>Devise</label><select name="currency"><option ${db.settings.currency==='FCFA'?'selected':''}>FCFA</option><option ${db.settings.currency==='EUR'?'selected':''}>EUR</option><option ${db.settings.currency==='USD'?'selected':''}>USD</option></select></div><div class="field full"><label>Numéro WhatsApp de l'activité (indicatif pays inclus)</label><input name="whatsapp" type="tel" placeholder="Ex. 242061234567" value="${esc(db.settings.whatsapp||'')}"></div><div class="field full"><button class="btn">Enregistrer les paramètres</button></div></form></div>
+<div class="card sub-card"><h2>🔒 Verrouillage par code PIN</h2><p class="sub">Définis un code de 4 à 6 chiffres pour verrouiller l'accès à Ma Caisse sur cet appareil.</p><div class="quick"><button class="btn secondary" id="pinSetup">${db.settings.pin?'Changer le code PIN':'Définir un code PIN'}</button>${db.settings.pin?'<button class="btn secondary" id="lockNow">Verrouiller maintenant</button><button class="btn danger" id="pinRemove">Désactiver le code</button>':''}</div><p class="sub">Note : ce verrouillage local protège l'accès courant à l'écran, mais ne remplace pas une authentification sécurisée sur serveur.</p></div>
+<div class="card sub-card"><h2>💳 Abonnement Ma Caisse</h2><span class="status-demo">MODE DÉMONSTRATION — AUCUN ARGENT NE SERA DÉBITÉ</span><div class="subscription-price">1er mois gratuit</div><div class="subscription-note"><b>Tarification de lancement :</b><br>• 1er mois : gratuit (0 FCFA)<br>• 2e mois : 500 FCFA<br>• À partir du 3e mois : 1 000 FCFA / mois</div><p class="subscription-note" style="margin-top:10px">Cette offre de lancement aide Ma Caisse à se faire connaître et à développer sa communauté. Les montants sont affichés à titre de simulation uniquement.</p><div class="field" style="margin:14px 0"><label for="demoPaymentMethod">Moyen de paiement prévu</label><select class="payment-select" id="demoPaymentMethod"><option value="Airtel Money" ${db.settings.paymentMethod==='Airtel Money'?'selected':''}>Airtel Money</option><option value="MTN MoMo" ${db.settings.paymentMethod==='MTN MoMo'?'selected':''}>MTN MoMo</option></select></div><p>Statut : <span class="subscription-status ${subscriptionState()==='Actif'?'active':subscriptionState()==='Expiré'?'expired':''}">${subscriptionState()}</span></p><p class="subscription-note">${db.settings.subscriptionCycle?'Mois utilisé : <b>'+db.settings.subscriptionCycle+'e mois</b> · Tarif correspondant : <b>'+subscriptionAmount(Number(db.settings.subscriptionCycle)).toLocaleString('fr-FR')+' FCFA</b>':'Offre disponible : premier mois gratuit.'}</p><p class="subscription-note">${db.settings.subscriptionExpiresAt?'Fin de la période : <b>'+fmtDate(db.settings.subscriptionExpiresAt.slice(0,10))+'</b>':'Aucune date de fin enregistrée.'}</p><p class="subscription-note">${db.settings.subscriptionCycle?'Prochain tarif : <b>'+subscriptionAmount(Number(db.settings.subscriptionCycle)+1).toLocaleString('fr-FR')+' FCFA</b>':'Après le mois gratuit : <b>500 FCFA</b>.'}</p><p class="subscription-note">${db.settings.paymentMethod?'Moyen choisi : <b>'+esc(db.settings.paymentMethod)+'</b>':''}</p><div class="quick" style="margin-top:12px"><button class="btn" id="demoPay">${!db.settings.subscriptionCycle?'Activer mon mois gratuit':subscriptionState()==='Actif'?'Renouvellement déjà programmé':'Activer / renouveler en démo'}</button><button class="btn secondary" id="demoCancel">Annuler l’abonnement démo</button></div><p class="subscription-note">Simulation locale uniquement : aucune transaction Airtel Money ou MTN MoMo n’est effectuée. Les données de cet appareil ne constituent pas encore une preuve de paiement.</p></div>
+<div class="card sub-card"><h2>Sauvegarde</h2><p class="sub">Exportez vos données pour en conserver une copie. Les données de cette version restent sur ce navigateur.</p><div class="quick"><button class="btn secondary" id="export">Exporter mes données</button><label class="btn secondary">Importer une sauvegarde<input id="import" type="file" accept="application/json" hidden></label><button class="btn danger" id="reset">Effacer toutes les données</button></div></div>`}
+function waOpen(phone,message){let n=String(phone||'').replace(/[^0-9]/g,'');if(!n){alert('Ajoute d’abord un numéro WhatsApp valide.');return}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(message),'_blank')}
+function setupPin(){let a=prompt('Choisis un code PIN de 4 à 6 chiffres :');if(a===null)return;if(!/^\d{4,6}$/.test(a)){alert('Le code doit contenir 4 à 6 chiffres.');return}let b=prompt('Confirme ton code PIN :');if(a!==b){alert('Les codes ne correspondent pas.');return}db.settings.pin=a;save();toast('Code PIN enregistré')}
+function lockApp(){if(!db.settings.pin){alert('Définis d’abord un code PIN.');return}$('lockScreen').classList.add('show');$('unlockPin').value='';$('lockError').textContent='';$('unlockPin').focus()}
+function unlockApp(){if($('unlockPin').value===String(db.settings.pin||'')){$('lockScreen').classList.remove('show');$('unlockPin').value='';resetPinTimer()}else{$('lockError').textContent='Code incorrect.';$('unlockPin').value=''}}
+let pinActivityTimer=null;function resetPinTimer(){clearTimeout(pinActivityTimer);if(db.settings.pin&&!$('lockScreen').classList.contains('show'))pinActivityTimer=setTimeout(lockApp,5*60*1000)}
+['click','keydown','touchstart','scroll'].forEach(evt=>document.addEventListener(evt,resetPinTimer,{passive:true}));document.addEventListener('visibilitychange',()=>{if(document.hidden&&db.settings.pin)lockApp()});
+function render(){let c=configs[page];$('pageTitle').textContent=c?.title||({dashboard:'Tableau de bord',reports:'Rapports',settings:'Paramètres',receipts:'Factures et reçus'}[page]);$('pageSub').textContent=c?.sub||({dashboard:'Vue d’ensemble de votre activité',reports:'Analyse de votre activité',settings:'Personnalisez et sauvegardez votre espace',receipts:'Un reçu pour chaque vente enregistrée'}[page]);$('content').innerHTML=page==='dashboard'?dashboard():c?listing(page):page==='reports'?reports():page==='receipts'?receiptsPage():settings();document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===page))}
+function openForm(key,item=null){
+ let c=configs[key];activeFormKey=key;editing=item?{key,id:item.id}:null;
+ $('modalTitle').textContent=item?'Modifier':'Ajouter — '+c.add;
+ $('modalFields').innerHTML=c.fields.map(f=>{
+  let [name,label,type,opts]=f,val=item?.[name]??(type==='date'?new Date().toISOString().slice(0,10):'');
+  if(key==='purchases'&&name==='item'){
+   let selected=item?.productId||'';
+   let options=db.products.map(p=>`<option value="${esc(p.id)}" ${p.id===selected?'selected':''}>${esc(p.name)} — stock actuel : ${Number(p.stock)||0}</option>`).join('');
+   return `<div class="field full"><label>Produit à approvisionner</label><select id="purchaseProduct" name="productId" required><option value="">Choisir un produit</option>${options}</select><small class="sub">Le stock sera augmenté après validation de l'achat.</small></div><div class="field"><label>Produit</label><input id="purchaseItem" name="item" value="${esc(val)}" required></div>`;
+  }
+  if(key==='sales'&&name==='item'){
+   let selected=item?.productId||'';
+   let options=db.products.map(p=>`<option value="${esc(p.id)}" ${p.id===selected?'selected':''}>${esc(p.name)} — stock : ${Number(p.stock)||0}</option>`).join('');
+   return `<div class="field full"><label>Produit lié au stock (facultatif)</label><select id="saleProduct" name="productId"><option value="">Aucun — vente manuelle / service</option>${options}</select><small class="sub">Choisis un produit pour que le stock soit automatiquement mis à jour.</small></div><div class="field"><label>Désignation de la vente</label><input id="saleItem" name="item" value="${esc(val)}" required></div>`;
+  }
+  let control=type==='select'?`<select name="${name}">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select>`:`<input name="${name}" type="${type}" ${type==='number'?'min="0" step="any"':''} value="${esc(val)}" ${['name','description','amount','person','item'].includes(name)?'required':''}>`;
+  return `<div class="field"><label>${label}</label>${control}</div>`;
+ }).join('');
+ $('modal').classList.add('show');
+}
+$('modalForm').addEventListener('submit',e=>{
+ e.preventDefault();let key=editing?.key||activeFormKey,form=new FormData(e.target),obj={};
+ for(let [k,v] of form)obj[k]=['amount','quantity','unitPrice','unitCost','buy','price','stock'].includes(k)?Number(v):v;
+ if(key==='purchases'){
+  if(!(obj.quantity>0)){alert('La quantité achetée doit être supérieure à zéro.');return}
+  if(!(obj.unitCost>=0)){alert('Le coût unitaire est invalide.');return}
+  let old=editing?db.purchases.find(x=>x.id===editing.id):null;
+  let oldProduct=old?.productId?db.products.find(p=>p.id===old.productId):null;
+  let newProduct=obj.productId?db.products.find(p=>p.id===obj.productId):null;
+  if(!newProduct){alert('Choisis un produit existant.');return}
+  if(oldProduct)oldProduct.stock=(Number(oldProduct.stock)||0)-(Number(old.quantity)||0);
+  newProduct.stock=(Number(newProduct.stock)||0)+obj.quantity;
+  obj.item=newProduct.name;
+ }
+ if(key==='sales'){
+  if(!(obj.quantity>0)){alert('La quantité doit être supérieure à zéro.');return}
+  if(!(obj.unitPrice>=0)){alert('Le prix unitaire est invalide.');return}
+  let old=editing?db.sales.find(x=>x.id===editing.id):null;
+  let oldProduct=old?.productId?db.products.find(p=>p.id===old.productId):null;
+  let newProduct=obj.productId?db.products.find(p=>p.id===obj.productId):null;
+  if(obj.productId&&!newProduct){alert('Ce produit n’existe plus dans le stock.');return}
+  if(newProduct){
+   let available=(Number(newProduct.stock)||0)+(oldProduct?.id===newProduct.id?(Number(old.quantity)||0):0);
+   if(obj.quantity>available){alert('Stock insuffisant. Quantité disponible : '+available);return}
+   obj.item=newProduct.name;
+  }
+  if(oldProduct)oldProduct.stock=(Number(oldProduct.stock)||0)+(Number(old.quantity)||0);
+  if(newProduct)newProduct.stock=(Number(newProduct.stock)||0)-obj.quantity;
+  if(!obj.productId)delete obj.productId;
+ }
+ if(editing){let i=db[key].findIndex(x=>x.id===editing.id);if(i>=0)db[key][i]={...db[key][i],...obj}}
+ else{obj.id=Date.now().toString(36)+Math.random().toString(36).slice(2);if(key==='sales')obj.receiptNo=++db.receiptCounter;db[key].push(obj)}
+ $('modal').classList.remove('show');save();toast('Enregistré avec succès');
+});
+document.addEventListener('click',e=>{let wa=e.target.closest('[data-wa]');if(wa){let [k,id]=wa.dataset.wa.split(':');let person=db[k].find(x=>x.id===id);waOpen(person?.phone,'Bonjour '+(person?.name||'')+', je vous contacte depuis '+(db.settings.business||'Ma Caisse')+'.');return}if(e.target.closest('#pinSetup')){setupPin();return}if(e.target.closest('#lockNow')){lockApp();return}if(e.target.closest('#pinRemove')){if(confirm('Désactiver le code PIN ?')){delete db.settings.pin;save();toast('Code PIN désactivé')}return}if(e.target.closest('#demoPay')){let method=$('demoPaymentMethod')?.value||'Airtel Money';let now=new Date();let cycle=Number(db.settings.subscriptionCycle)||0;let expiry=db.settings.subscriptionExpiresAt?new Date(db.settings.subscriptionExpiresAt):null;let active=expiry&&!Number.isNaN(expiry.getTime())&&expiry>now&&db.settings.subscriptionStatus!=='Annulé';if(active){toast('Ton abonnement démo est déjà actif jusqu’à la date indiquée.');return}let nextCycle=cycle+1;let amount=subscriptionAmount(nextCycle);db.settings.paymentMethod=method;db.settings.subscriptionCycle=nextCycle;if(!db.settings.subscriptionStartAt)db.settings.subscriptionStartAt=now.toISOString();db.settings.subscriptionExpiresAt=addSubscriptionMonth(now);db.settings.subscriptionStatus='Actif';db.settings.subscriptionDemoDate=now.toISOString();db.settings.lastSimulatedAmount=amount;db.settings.lastSimulatedPaymentMethod=method;save();render();toast(nextCycle===1?'Premier mois gratuit activé':('Simulation : '+amount.toLocaleString('fr-FR')+' FCFA via '+method+' — aucun paiement effectué'));return}if(e.target.closest('#demoCancel')){if(!db.settings.subscriptionCycle){toast('Aucun abonnement démo à annuler.');return}if(!confirm('Annuler l’abonnement de démonstration ? Le mois gratuit déjà utilisé ne pourra pas être recommencé depuis ce bouton.'))return;db.settings.subscriptionStatus='Annulé';save();render();toast('Abonnement démo annulé. Ton historique est conservé.');return}if(e.target.closest('#receiptWhatsApp')){let sale=db.sales.find(x=>x.id===currentReceipt);if(sale){let client=db.clients.find(c=>(c.name||'').trim().toLowerCase()===(sale.client||'').trim().toLowerCase());let msg='Reçu '+receiptNo(sale)+' — '+(db.settings.business||'Ma Caisse')+'\nClient : '+receiptClient(sale)+'\nArticle : '+sale.item+'\nQuantité : '+sale.quantity+'\nTotal : '+money(receiptTotal(sale));waOpen(client?.phone,msg)}return}let n=e.target.closest('[data-page]');if(n){page=n.dataset.page;render();return}let a=e.target.closest('[data-add]');if(a){openForm(a.dataset.add);return}let ed=e.target.closest('[data-edit]');if(ed){let [k,id]=ed.dataset.edit.split(':');openForm(k,db[k].find(x=>x.id===id));return}let del=e.target.closest('[data-del]');if(del){let [k,id]=del.dataset.del.split(':');if(confirm('Supprimer cet élément ?')){if(k==='sales'){let sale=db.sales.find(x=>x.id===id);let product=sale?.productId?db.products.find(p=>p.id===sale.productId):null;if(product)product.stock=(Number(product.stock)||0)+(Number(sale.quantity)||0)}if(k==='purchases'){let purchase=db.purchases.find(x=>x.id===id);let product=purchase?.productId?db.products.find(p=>p.id===purchase.productId):null;if(product){let remaining=(Number(product.stock)||0)-(Number(purchase.quantity)||0);if(remaining<0){alert('Impossible de supprimer cet achat : une partie des articles a déjà été vendue ou retirée du stock.');return}product.stock=remaining}}db[k]=db[k].filter(x=>x.id!==id);save();toast('Élément supprimé')}}});
+$('cancel').onclick=()=>$('modal').classList.remove('show');$('unlockBtn').onclick=unlockApp;$('unlockPin').addEventListener('keydown',e=>{if(e.key==='Enter')unlockApp()});
+$('modalFields').addEventListener('change',e=>{
+ if(e.target.id==='saleProduct'){
+  let product=db.products.find(p=>p.id===e.target.value);
+  if(product&&$('saleItem'))$('saleItem').value=product.name;
+ }
+ if(e.target.id==='purchaseProduct'){
+  let product=db.products.find(p=>p.id===e.target.value);
+  if(product&&$('purchaseItem'))$('purchaseItem').value=product.name;
+ }
+});
+function applyFinanceFilters(){
+if(page!=='transactions')return;
+let q=($('financeSearch')?.value||'').toLowerCase(),type=$('financeType')?.value||'',from=$('financeFrom')?.value||'',to=$('financeTo')?.value||'';
+let c=configs.transactions,arr=db.transactions.filter(x=>(!q||`${x.description} ${x.category}`.toLowerCase().includes(q))&&(!type||x.type===type)&&(!from||x.date>=from)&&(!to||x.date<=to));
+let headers=c.fields.map(f=>f[1]);headers.push('Actions');
+let rows=arr.map(x=>`<tr>${c.fields.map(f=>`<td>${f[0]==='amount'?money(x[f[0]]):esc(x[f[0]])}</td>`).join('')}<td>${actionButtons('transactions',x.id)}</td></tr>`).join('');
+$('listingTable').innerHTML=table(headers,rows);
+}
+
+document.addEventListener('input',e=>{if(['financeSearch','financeType','financeFrom','financeTo'].includes(e.target.id))applyFinanceFilters()});
+document.addEventListener('change',e=>{
+ if(e.target.id==='import'){
+  const file=e.target.files?.[0]; if(!file)return;
+  file.text().then(raw=>{let x=JSON.parse(raw);db={...blank,...x,settings:{...blank.settings,...(x.settings||{})}};save();toast('Sauvegarde importée')}).catch(()=>alert('Fichier de sauvegarde invalide'));
+ }
+});
+document.addEventListener('click',e=>{
+ if(e.target.closest('#financeClear')){['financeSearch','financeType','financeFrom','financeTo'].forEach(id=>{if($(id))$(id).value=''});applyFinanceFilters()}
+ if(e.target.closest('#export')){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ma-caisse-sauvegarde.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+ if(e.target.closest('#reset')&&confirm('Effacer toutes les données enregistrées sur cet appareil ?')){db=JSON.parse(JSON.stringify(blank));save();toast('Données effacées')}
+});
+document.addEventListener('submit',e=>{
+ if(e.target.id==='settingsForm'){e.preventDefault();let f=new FormData(e.target);db.settings={...db.settings,business:f.get('business'),currency:f.get('currency'),whatsapp:f.get('whatsapp')};save();toast('Paramètres enregistrés')}
+});
+
+/* ===== MODULE FACTURES ET REÇUS (lecture seule : ne touche ni aux stocks ni aux montants) ===== */
+let currentReceipt=null;
+const qtyFmt=n=>new Intl.NumberFormat('fr-FR',{maximumFractionDigits:3}).format(Number(n)||0);
+const receiptNo=s=>'REC-'+String(s.receiptNo||0).padStart(4,'0');
+const receiptTotal=s=>(+s.quantity||0)*(+s.unitPrice||0);
+const receiptClient=s=>String(s.client||'').trim()||'Client de passage';
+function fmtDate(d){let m=/^(\d{4})-(\d{2})-(\d{2})/.exec(d||'');return m?`${m[3]}/${m[2]}/${m[1]}`:'—'}
+function receiptCard(s){
+ return `<div class="card rc-item"><div class="rc-info"><div class="rc-no">${receiptNo(s)}</div><div class="rc-name">${esc(s.item)}</div><div class="rc-line">${esc(receiptClient(s))} · ${fmtDate(s.date)}<br>${qtyFmt(s.quantity)} × ${money(s.unitPrice)}</div></div><div class="rc-side"><div class="rc-amount">${money(receiptTotal(s))}</div><div class="rc-btns"><button class="btn small" data-receipt="view:${esc(s.id)}">Voir</button><button class="btn secondary small" data-receipt="pdf:${esc(s.id)}">PDF</button><button class="btn secondary small" data-receipt="print:${esc(s.id)}">Imprimer</button><button class="btn secondary small" data-receipt="whatsapp:${esc(s.id)}">WhatsApp</button></div></div></div>`;
+}
+function receiptList(q){
+ q=String(q||'').trim().toLowerCase();
+ let arr=[...db.sales].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(+b.receiptNo||0)-(+a.receiptNo||0))
+  .filter(s=>!q||`${receiptNo(s)} ${s.item} ${receiptClient(s)} ${fmtDate(s.date)} ${s.date||''}`.toLowerCase().includes(q));
+ if(!arr.length)return `<div class="card empty">${db.sales.length?'Aucun reçu ne correspond à ta recherche.':'Aucun reçu pour le moment. Enregistre une vente dans la rubrique Ventes : son reçu apparaîtra ici automatiquement.'}</div>`;
+ return arr.map(receiptCard).join('');
+}
+function receiptsPage(){
+ return `<div class="grid">${metric('Reçus émis',db.sales.length)}${metric('Montant total des reçus',money(sum(db.sales,receiptTotal)))}</div>
+ <div class="card section"><div class="field"><label>Rechercher un reçu</label><input id="receiptSearch" placeholder="N° de reçu, client ou article…"></div></div>
+ <div class="section rc-list" id="receiptList">${receiptList('')}</div>
+ <p class="sub">Chaque vente a son propre reçu. Si tu modifies ou supprimes une vente, le reçu correspondant est mis à jour ou retiré automatiquement.</p>`;
+}
+function receiptSheet(s){
+ return `<div class="rc-sheet" id="receiptSheet"><div class="rc-biz">${esc(db.settings.business||'Ma Caisse')}</div><div class="rc-title">REÇU DE VENTE</div>
+ <div class="rc-meta"><div><span>N° du reçu</span><b>${receiptNo(s)}</b></div><div><span>Date</span><b>${fmtDate(s.date)}</b></div><div class="full"><span>Client</span><b>${esc(receiptClient(s))}</b></div></div>
+ <div class="rc-detail"><div class="rc-desig">${esc(s.item)}</div>
+ <div class="rc-row"><span>Quantité</span><b>${qtyFmt(s.quantity)}</b></div>
+ <div class="rc-row"><span>Prix unitaire</span><b>${money(s.unitPrice)}</b></div></div>
+ <div class="rc-total"><span>MONTANT TOTAL</span><b>${money(receiptTotal(s))}</b></div>
+ <div class="rc-foot">Merci pour votre confiance.</div></div>`;
+}
+function openReceipt(id){
+ let s=db.sales.find(x=>x.id===id);if(!s){toast('Reçu introuvable');return}
+ currentReceipt=id;
+ $('receiptDialog').innerHTML=receiptSheet(s)+`<div class="rc-actions no-print"><button type="button" class="btn secondary" id="receiptClose">Fermer</button><button type="button" class="btn secondary" id="receiptPrint">Imprimer</button><button type="button" class="btn" id="receiptPdf">Enregistrer en PDF</button><button type="button" class="btn secondary" id="receiptWhatsApp">WhatsApp</button></div>`;
+ $('receiptModal').classList.add('show');document.body.classList.add('rc-open');
+}
+function closeReceipt(){$('receiptModal').classList.remove('show');document.body.classList.remove('rc-open');currentReceipt=null}
+function printReceipt(id){openReceipt(id);if(currentReceipt)setTimeout(()=>window.print(),200)}
+
+/* --- Générateur PDF intégré (aucune bibliothèque, fonctionne hors connexion) --- */
+const HELV='278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584'.split(',').map(Number);
+const WIN={'’':0x92,'‘':0x91,'“':0x93,'”':0x94,'€':0x80,'–':0x96,'—':0x97,'…':0x85,'•':0x95,'œ':0x9C,'Œ':0x8C};
+function pdfSafe(s){
+ return Array.from(String(s??'').replace(/[\u00a0\u202f\u2009]/g,' ').replace(/[\r\n\t]+/g,' ')).map(ch=>{let c=ch.codePointAt(0);if(WIN[ch])return String.fromCharCode(WIN[ch]);return (c>=32&&c<127)||(c>=128&&c<=255)?ch:'?'}).join('');
+}
+function pdfWidth(s,size,bold){let w=0;for(const ch of s){let c=ch.charCodeAt(0);w+=(c>=32&&c<=126)?HELV[c-32]:556}return w*size/1000*(bold?1.08:1)}
+const pdfLit=s=>s.replace(/[\\()]/g,'\\$&');
+function pdfWrap(text,maxW,size,bold){
+ let words=pdfSafe(text).split(' ').filter(Boolean),lines=[],cur='';
+ for(let w of words){
+  while(pdfWidth(w,size,bold)>maxW&&w.length>1){
+   let i=1;while(i<w.length-1&&pdfWidth(w.slice(0,i+1),size,bold)<=maxW)i++;
+   if(cur){lines.push(cur);cur=''}
+   lines.push(w.slice(0,i));w=w.slice(i);
+  }
+  let t=cur?cur+' '+w:w;
+  if(pdfWidth(t,size,bold)<=maxW)cur=t;else{if(cur)lines.push(cur);cur=w}
+ }
+ if(cur)lines.push(cur);
+ return lines.length?lines:[''];
+}
+function buildReceiptPdf(s){
+ const W=420,H=595,M=36,CW=W-2*M,ops=[],GRAY=[0.44,0.48,0.56],INK=[0.09,0.13,0.2],NAVY=[0.063,0.102,0.173];let top=40;
+ const Y=t=>(H-t).toFixed(2);
+ const txt=(str,x,t,size,bold,col,align)=>{str=pdfSafe(str);let w=pdfWidth(str,size,bold);if(align==='r')x-=w;else if(align==='c')x-=w/2;ops.push(`BT /${bold?'F2':'F1'} ${size} Tf ${(col||INK).join(' ')} rg ${x.toFixed(2)} ${Y(t)} Td (${pdfLit(str)}) Tj ET`)};
+ const fit=(str,maxW,size,bold)=>{str=pdfSafe(str);while(size>6&&pdfWidth(str,size,bold)>maxW)size-=0.5;return size};
+ const rect=(x,t,w,h,col)=>ops.push(`${col.join(' ')} rg ${x} ${(H-t-h).toFixed(2)} ${w} ${h} re f`);
+ const hline=t=>ops.push(`0.86 0.89 0.93 RG 0.8 w ${M} ${Y(t)} m ${W-M} ${Y(t)} l S`);
+ pdfWrap(db.settings.business||'Ma Caisse',CW,20,true).forEach(l=>{txt(l,W/2,top+20,20,true,NAVY,'c');top+=25});
+ txt('REÇU DE VENTE',W/2,top+10,10,false,GRAY,'c');top+=28;hline(top);top+=20;
+ txt('N° du reçu',M,top,8,false,GRAY);txt('Date',W-M,top,8,false,GRAY,'r');
+ txt(receiptNo(s),M,top+15,12,true);txt(fmtDate(s.date),W-M,top+15,12,true,INK,'r');top+=40;
+ txt('Client',M,top,8,false,GRAY);
+ let cl=pdfWrap(receiptClient(s),CW,12,true);cl.forEach((l,i)=>txt(l,M,top+15+i*15,12,true));top+=15+cl.length*15+8;hline(top);top+=26;
+ rect(M,top,CW,24,[0.93,0.95,0.98]);
+ txt('Désignation',M+8,top+15,8.5,true,GRAY);txt('Qté',M+176,top+15,8.5,true,GRAY,'r');txt('Prix unitaire',M+258,top+15,8.5,true,GRAY,'r');txt('Total',M+CW-8,top+15,8.5,true,GRAY,'r');
+ top+=24;
+ let it=pdfWrap(s.item,130,10,false),q=qtyFmt(s.quantity),pu=money(s.unitPrice),tt=money(receiptTotal(s));
+ it.forEach((l,i)=>txt(l,M+8,top+18+i*13,10,false));
+ txt(q,M+176,top+18,fit(q,36,10,false),false,INK,'r');
+ txt(pu,M+258,top+18,fit(pu,78,10,false),false,INK,'r');
+ txt(tt,M+CW-8,top+18,fit(tt,76,10,true),true,INK,'r');
+ top+=it.length*13+16;hline(top);top+=26;
+ rect(M,top,CW,38,NAVY);
+ txt('MONTANT TOTAL',M+14,top+23,10,true,[1,1,1]);
+ txt(tt,W-M-14,top+24,fit(tt,CW-28-100,14,true),true,[1,1,1],'r');
+ top+=38+34;
+ txt('Merci pour votre confiance.',W/2,top,10,false,GRAY,'c');
+ txt(receiptNo(s)+' · Reçu généré avec Ma Caisse',W/2,top+16,8,false,GRAY,'c');
+ const stream=ops.join('\n'),objs=[null,
+  '<< /Type /Catalog /Pages 2 0 R >>',
+  '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+  `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>`,
+  `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`,
+  '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+  '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'];
+ let out='%PDF-1.4\n',offs=[];
+ for(let i=1;i<objs.length;i++){offs[i]=out.length;out+=`${i} 0 obj\n${objs[i]}\nendobj\n`}
+ let xref=out.length;
+ out+=`xref\n0 ${objs.length}\n0000000000 65535 f \n`+offs.slice(1).map(o=>String(o).padStart(10,'0')+' 00000 n \n').join('')+`trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+ return out;
+}
+function downloadReceiptPdf(id){
+ let s=db.sales.find(x=>x.id===id);if(!s){toast('Reçu introuvable');return}
+ try{
+  let pdf=buildReceiptPdf(s),bytes=new Uint8Array(pdf.length);
+  for(let i=0;i<pdf.length;i++)bytes[i]=pdf.charCodeAt(i)&255;
+  let blob=new Blob([bytes],{type:'application/pdf'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='Recu-'+receiptNo(s)+'.pdf';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Reçu PDF créé');
+ }catch(err){alert('Impossible de créer le PDF. Utilise « Imprimer », puis « Enregistrer au format PDF ».')}
+}
+document.addEventListener('click',e=>{
+ let r=e.target.closest('[data-receipt]');
+ if(r){let [act,id]=r.dataset.receipt.split(':');if(act==='view')openReceipt(id);else if(act==='print')printReceipt(id);else if(act==='pdf')downloadReceiptPdf(id);else if(act==='whatsapp'){let sale=db.sales.find(x=>x.id===id);if(sale){let client=db.clients.find(c=>(c.name||'').trim().toLowerCase()===(sale.client||'').trim().toLowerCase());let msg='Reçu '+receiptNo(sale)+' — '+(db.settings.business||'Ma Caisse')+'\nClient : '+receiptClient(sale)+'\nArticle : '+sale.item+'\nQuantité : '+sale.quantity+'\nTotal : '+money(receiptTotal(sale));waOpen(client?.phone,msg)}}return}
+ if(e.target.closest('#receiptClose')||e.target===$('receiptModal'))closeReceipt();
+ else if(e.target.closest('#receiptPrint'))window.print();
+ else if(e.target.closest('#receiptPdf'))downloadReceiptPdf(currentReceipt);
+});
+document.addEventListener('input',e=>{if(e.target.id==='receiptSearch'&&$('receiptList'))$('receiptList').innerHTML=receiptList(e.target.value)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentReceipt)closeReceipt()});
+
+render();if(db.settings.pin)lockApp();
+})();
+</script></body></html>
