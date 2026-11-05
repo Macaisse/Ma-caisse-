@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "Ma Caisse — Gestion complète",
+  "short_name": "Ma Caisse",
+  "description": "Application de gestion de caisse, ventes, achats, stocks et finances.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f6fb",
+  "theme_color": "#101a2c",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
